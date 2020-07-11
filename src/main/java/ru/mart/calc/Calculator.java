@@ -1,6 +1,11 @@
 package ru.mart.calc;
 
+import ru.mart.calc.exception.NumTypeMismatchException;
+import ru.mart.calc.exception.NumberRangeExceededException;
+import ru.mart.calc.number.Num;
+import ru.mart.calc.number.Num.Type;
 import ru.mart.calc.operation.Operation;
+import ru.mart.calc.utils.RomanNumConverter;
 
 public final class Calculator {
 
@@ -14,8 +19,15 @@ public final class Calculator {
         return INSTANCE;
     }
 
-    public double calculate(int left, Operation operation, int right) {
-        return operation.apply(left, right);
+    public String calculate(Num left, Operation operation, Num right) {
+        if (!left.getType().equals(right.getType())) {
+            throw new NumTypeMismatchException();
+        }
+        if (left.getValue() > 10 || right.getValue() > 10 || left.getValue() < 1 || right.getValue() < 1) {
+            throw new NumberRangeExceededException();
+        }
+        double result = operation.apply(left.getValue(), right.getValue());
+        return left.getType().equals(Type.ROMAN) ? RomanNumConverter.doubleToRoman(result) : String.valueOf(result);
     }
 
 }
