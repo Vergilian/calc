@@ -4,7 +4,7 @@ public final class StringUtils {
 
     private static final String WHITESPACE_REGEX = "\\s+";
 
-    public StringUtils() {
+    private StringUtils() {
         throw new RuntimeException();
     }
 
